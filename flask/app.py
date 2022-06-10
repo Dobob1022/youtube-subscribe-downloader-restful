@@ -1,9 +1,9 @@
 from flask import Flask, render_template, request, flash, redirect, session, Response,jsonify
 from modules import db
 import os
-import json
 import re
-import ast
+import json
+import pandas as pd
 
 
 
@@ -31,38 +31,45 @@ def main():
     if request.method=="POST":
         return Response(status=405)
 
-@app.route('/db', methods = ['GET','POST','PUT'])
-def readdb():
+@app.route('/db', methods = ['GET','POST'])
+def dbjob():
     if request.method=="GET":
         #readDB Function Required
-        return "READDB"
-    elif request.method=="PUT":
+        getdata = db.load_link()
+        result = []
+        for v0 in getdata:
+            result.append(v0[0])
+            print(v0[0])
+        really = json.dumps(result)
+        json_result = json.loads(really)
+        return really
+
+
+    elif request.method=="POST":
         print(request.is_json)
         params = request.get_json()
         if not request.is_json:
             return jsonify({"msg": "Missing JSON in request"}), 400
+
+
         else:
             #link check
             request_url = params['link']
             if youtube_url_validation(request_url) == True:
-                pass
+                #db Insert
+                return db.insert_link(params['link']),200
             else:
                 return jsonify({"msg":"Invaild_Youtube_Link"}),400
-            #db insert
-            return jsonify({"req":params['link']})
+
             # return jsonify({"msg": "OK"}), 200
         
     else:
         return Response(status=405)
 
 
-# @app.route('/download', method = ['POST'])
-# def download():
-#     if request.method == "GET":
-#         #yt-dlp download require
-#         return "DOWNLOAD COMPLETE"
-#     else:
-#         return Response(status=405)
+@app.route('/update', methods = ['GET','POST','PUT'])
+def readdb():
+    return "WTF"
 
 
 #Response({"a":"b"}, status=201, mimetype='application/json)
