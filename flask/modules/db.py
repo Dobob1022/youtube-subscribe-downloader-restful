@@ -26,7 +26,6 @@ from sqlalchemy.orm import sessionmaker
 Session = sessionmaker(bind=engine)
 session = Session()
 
-testinput = List(link="FUQ")
 
 
 def insert_link(link):

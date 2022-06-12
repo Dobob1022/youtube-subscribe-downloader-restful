@@ -3,7 +3,6 @@ from modules import db
 import os
 import re
 import json
-import pandas as pd
 
 
 
@@ -40,9 +39,8 @@ def dbjob():
         for v0 in getdata:
             result.append(v0[0])
             print(v0[0])
-        really = json.dumps(result)
-        json_result = json.loads(really)
-        return really
+        jsonoutput = json.dumps(result)
+        return jsonoutput
 
 
     elif request.method=="POST":
@@ -50,8 +48,6 @@ def dbjob():
         params = request.get_json()
         if not request.is_json:
             return jsonify({"msg": "Missing JSON in request"}), 400
-
-
         else:
             #link check
             request_url = params['link']
