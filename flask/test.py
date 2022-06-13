@@ -20,44 +20,70 @@ import yt_dlp
 
 
 
-from modules import db
-import json
+# from modules import db
+# import json
 
-getdata = db.load_link()
+# getdata = db.load_link()
 
-result = []
-
-
-
-for v0 in getdata:
-    result.append(v0[0])
-    print(v0[0])
-
-print("RESULT:",result)
-
-really = json.dumps(result)
-
-print(really)
-
-cyka = json.loads(really)
-
-print(cyka[0])
+# result = []
 
 
-def download(link):
-    download_list = [link,
-    ]
 
-    ydl_opt = {
-    'outtmpl': './download/%(channel)s/''%(title)s.%(ext)s',
-    'format': 'best', #sel best qulity 
-    'continue' : True,
-    'verbose' : True,
-    'no-overwrites' : True,
-    'noplaylist' : True,  
-    }
-    with yt_dlp.YoutubeDL(ydl_opt) as ydl:
-        ydl.download(download_list)
+# for v0 in getdata:
+#     result.append(v0[0])
+#     print(v0[0])
 
-for v0 in cyka:
-    download(v0)
+# print("RESULT:",result)
+
+# really = json.dumps(result)
+
+# print(really)
+
+# cyka = json.loads(really)
+
+# print(cyka[0])
+
+
+# def download(link):
+#     download_list = [link,
+#     ]
+
+#     ydl_opt = {
+#     'outtmpl': './download/%(channel)s/''%(title)s.%(ext)s',
+#     'format': 'best', #sel best qulity 
+#     'continue' : True,
+#     'verbose' : True,
+#     'no-overwrites' : True,
+#     'noplaylist' : True,  
+#     }
+#     with yt_dlp.YoutubeDL(ydl_opt) as ydl:
+#         ydl.download(download_list)
+
+# for v0 in cyka:
+#     download(v0)
+
+
+# from modules import download, db
+
+# print(download.check_download("https://www.youtube.com/playlist?list=PL9aQlZr3wxbiaAv5aD-FRXArcCrXzDcwz"))
+
+
+# a ="ERROR: [generic] Unable to download webpage: HTTP Error 401: Unauthorized (caused by <HTTPError 401: 'Unauthorized'>); please report this issue on  https://github.com/yt-dlp/yt-dlp/issues?q= , filling out the appropriate issue template. Confirm you are on the latest version using  yt-dlp -U"
+# b = a.find('HTTP Error')
+# print(a[b+11:b+14])
+
+
+##check require
+# from modules import db, download
+
+# db.insert_link("https://www.youtube.com/playlist?list=PL9aQlZr3wxbiaAv5aD-FRXArcCrXzDcwz")
+# db.insert_link("https://www.youtube.com/channel/UCUkZCwVhUvoYWaTkujQJZ0Q")
+
+# a = db.load_link()
+
+# b = download.channel_playlist(a)
+
+# for v0 in :
+#     download.channel_playlist(v0[0])
+#     print(b)
+
