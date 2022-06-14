@@ -31,7 +31,11 @@ def check_download(link_list):
         })
 
 def channel_playlist(link_list):
-    if str(link_list).find("playlist") == -1:
-        return "NO PLAYLIST"
-    else:
-        return "PlayList IN"
+    for v0 in link_list:
+        result = v0[0].find("playlist")
+        if result == -1:
+            print("NOPLAY")
+            continue
+        else:
+            return v0[0]
+

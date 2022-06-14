@@ -11,15 +11,6 @@
 # print(youtube_url_validation("https://youtube.com/channel/123"))
 
 
-
-
-import yt_dlp
-    
-
-
-
-
-
 # from modules import db
 # import json
 
@@ -74,16 +65,48 @@ import yt_dlp
 
 
 ##check require
-# from modules import db, download
+from modules import db, download
 
 # db.insert_link("https://www.youtube.com/playlist?list=PL9aQlZr3wxbiaAv5aD-FRXArcCrXzDcwz")
 # db.insert_link("https://www.youtube.com/channel/UCUkZCwVhUvoYWaTkujQJZ0Q")
 
-# a = db.load_link()
+a = db.load_link()
+
+
 
 # b = download.channel_playlist(a)
 
-# for v0 in :
-#     download.channel_playlist(v0[0])
-#     print(b)
+#validate playlist
+# def sex(link_lists):
+#   result = []
+#   for v0 in range(len(link_lists)):
+#     link_list = link_lists[v0][0]
+#     if 'playlist' in link_list:
+#       result.append(link_list)
+#   return result
+
+# print(sex(a))
+
+
+# print(a)
+
+## 404 Validataion
+# import re
+# import requests
+# from modules import db
+# def youtube_url_validation(url):
+#     regex = r"^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube(-nocookie)?\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$"
+#     youtube_regex_match = re.match(regex, url)
+#     if youtube_regex_match:
+#         return True
+#     return False
+
+# def link_avaliablity(url):
+#     request = requests.get(url)
+#     print(str(request))
+#     if str(request).find("404") == -1:
+#         pass
+#     else:
+#         return 404
+#     return request
 

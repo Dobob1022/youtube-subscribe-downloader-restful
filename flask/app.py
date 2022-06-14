@@ -1,9 +1,9 @@
 from flask import Flask, render_template, request, flash, redirect, session, Response,jsonify
-from modules import db
+from modules import db, download
 import os
 import re
 import json
-
+import requests
 
 
 app = Flask(__name__)
@@ -17,18 +17,22 @@ def youtube_url_validation(url):
     youtube_regex_match = re.match(regex, url)
     if youtube_regex_match:
         return True
-
     return False
 
+def link_avaliablity(url):
+    request = requests.get(url)
+    print(str(request))
+    if str(request).find("404") == -1:
+        pass
+    else:
+        return 404
+    return True
 
 
 ## route area
-@app.route('/', methods = ['GET','POST'])
+@app.route('/')
 def main():
-    if request.method=="GET":
-        return Response(status=405)
-    if request.method=="POST":
-        return Response(status=405)
+    return Response(status=405)
 
 @app.route('/db', methods = ['GET','POST'])
 def dbjob():
@@ -52,8 +56,12 @@ def dbjob():
             #link check
             request_url = params['link']
             if youtube_url_validation(request_url) == True:
-                #db Insert
-                return db.insert_link(params['link']),200
+                #404 check
+                if link_avaliablity(request_url) ==  True:
+                    #DB INSERT
+                    return db.insert_link(params['link']),200
+                else:
+                    return jsonify({"msg":"Invaild_Youtube_Link"}),400
             else:
                 return jsonify({"msg":"Invaild_Youtube_Link"}),400
 
@@ -64,8 +72,11 @@ def dbjob():
 
 
 @app.route('/update', methods = ['GET','POST','PUT'])
-def readdb():
+def ytdlp_update():
+    #YT-DLP UPDATE
     return "WTF"
+
+
 
 
 #Response({"a":"b"}, status=201, mimetype='application/json)
