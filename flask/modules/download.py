@@ -1,35 +1,6 @@
 import yt_dlp
 import yt_dlp.utils
 
-def download_playlist(download_list):
-    ydl_opt = {
-    'outtmpl': './download/%(playlist_title)s/''%(title)s.%(ext)s',
-    'format': 'best', #sel best qulity 
-    'continue' : True,
-    'verbose' : True,
-    'no-overwrites' : True,
-    'noplaylist' : True,
-    'geo-bypass' : True,
-    'ignoreerrors': True,
-    }
-    with yt_dlp.YoutubeDL(ydl_opt) as ydl:
-        ydl.download(download_list)
- 
-def download_channel(download_list):
-    ydl_opt = {
-    'outtmpl': './download/%(channel)s/''%(title)s.%(ext)s',
-    'format': 'best', #sel best qulity 
-    'continue' : True,
-    'verbose' : True,
-    'no-overwrites' : True,
-    'noplaylist' : True,
-    'geo-bypass' : True,
-    'ignoreerrors': True,
-    }
-    with yt_dlp.YoutubeDL(ydl_opt) as ydl:
-        ydl.download(download_list)
-
-
 def check_download(link_list):
     try:
         download(link_list)
@@ -42,27 +13,9 @@ def check_download(link_list):
             "code":errcode
         })
 
-# validate playlist
-def is_playlist(link_lists):
-  result = []
-  for v0 in range(len(link_lists)):
-    link_list = link_lists[v0][0]
-    if 'playlist' in link_list:
-      result.append(link_list)
-  return True,result
-
-def is_playlist(link_lists):
-  result = []
-  for v0 in range(len(link_lists)):
-    link_list = link_lists[v0][0]
-    if 'channel' in link_list:
-      result.append(link_list)
-  return True,result
-
 
 
 def download(download_links):
-
     for v0 in download_links:
         if 'playlist' in v0[0]:
             ydl_opt = {
