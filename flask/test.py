@@ -110,3 +110,10 @@ a = db.load_link()
 #         return 404
 #     return request
 
+from modules import download, db
+
+list = db.load_link()
+
+
+
+download.download(a)
