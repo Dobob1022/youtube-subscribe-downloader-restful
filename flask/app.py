@@ -1,16 +1,19 @@
+from concurrent.futures import thread
 from flask import Flask, render_template, request, flash, redirect, session, Response,jsonify
 from modules import db, download
 import os
 import re
 import json
 import requests
-
+import threading
+import time
+import re
 
 app = Flask(__name__)
 app.secret_key = os.urandom(32)
 
 ## function area
-import re
+
 
 def youtube_url_validation(url):
     regex = r"^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube(-nocookie)?\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$"
@@ -28,6 +31,16 @@ def link_avaliablity(url):
         return 404
     return True
 
+#YT_DLP_Threading
+
+class donwloader(threading.Thread):
+    def __init__(self,name):
+        super().__init__()
+        self.name = name
+    def thread_download():
+        time.sleep(5)
+        getdata = db.load_link()
+        download.download(getdata)
 
 ## route area
 @app.route('/')
@@ -71,15 +84,27 @@ def dbjob():
         return Response(status=405)
 
 
+
 @app.route('/update', methods = ['GET','POST','PUT'])
 def ytdlp_update():
     #YT-DLP UPDATE
     return "WTF"
 
 
+#Double Threading.. Find New method to opearte 
 
+def thread_download():
+    while True:
+        getdata = db.load_link()
+        print(download.check_download(getdata))
 
-#Response({"a":"b"}, status=201, mimetype='application/json)
+        time.sleep(7200)
+
+#Response({"a":"b"}, status=201, mimetype='application/json
 if __name__ == "__main__":
+    threading.Thread(target = thread_download).start()
     app.run(debug=True, host = '0.0.0.0')
- 
+    
+    # threading.Thread(target=thread_download).start()
+    
+    

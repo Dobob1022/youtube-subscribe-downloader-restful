@@ -1,20 +1,6 @@
 import yt_dlp
 import yt_dlp.utils
 
-def check_download(link_list):
-    try:
-        download(link_list)
-        return ({"result":"sucess"})
-    except yt_dlp.utils.DownloadError as e:
-        position = str(e).find('HTTP Error')
-        errcode = str(e)[position+11:position+14]
-        return ({
-            "result":"fail",
-            "code":errcode
-        })
-
-
-
 def download(download_links):
     for v0 in download_links:
         if 'playlist' in v0[0]:
@@ -43,5 +29,16 @@ def download(download_links):
             }
             with yt_dlp.YoutubeDL(ydl_opt) as ydl:
                 ydl.download(str(v0[0]))
+    return({"result":"true"})            
             
- 
+def check_download(link_list):
+    try:
+        download(link_list)
+        return ({"result":"sucess"})
+    except yt_dlp.utils.DownloadError as e:
+        position = str(e).find('HTTP Error')
+        errcode = str(e)[position+11:position+14]
+        return ({
+            "result":"fail",
+            "code":errcode
+        })
