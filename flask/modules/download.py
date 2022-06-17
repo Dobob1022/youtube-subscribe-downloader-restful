@@ -42,3 +42,6 @@ def check_download(link_list):
             "result":"fail",
             "code":errcode
         })
+    
+def update():
+    print(yt_dlp.update.run_update())

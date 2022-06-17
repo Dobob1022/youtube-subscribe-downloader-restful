@@ -2,7 +2,6 @@ from sqlite3 import Date
 from sqlalchemy import create_engine,inspect
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.exc import IntegrityError
-import jsonify
 import datetime
 
 engine = create_engine('sqlite:///db.sqlite3')#, echo=True)
@@ -23,7 +22,7 @@ class List(Base):
 List.__table__.create(bind=engine, checkfirst=True)
 
 from sqlalchemy.orm import sessionmaker
-Session = sessionmaker(bind=engine)
+Session = sessionmaker(bind=engine,autocommit=False,autoflush=False)
 session = Session()
 
 
@@ -35,12 +34,15 @@ def insert_link(link):
     session.commit()
   except IntegrityError as e:
     session.rollback()
+    session.close()
     return ({"result":"duplicated"})
   else:
+    session.close()
     return ({"result":"OK"})
 
 def load_link():
   query_data = session.query(List.link).all()
+  session.close()
   return query_data
 
     

@@ -1,5 +1,6 @@
 from concurrent.futures import thread
 from flask import Flask, render_template, request, flash, redirect, session, Response,jsonify
+import yt_dlp
 from modules import db, download
 import os
 import re
@@ -30,17 +31,6 @@ def link_avaliablity(url):
     else:
         return 404
     return True
-
-#YT_DLP_Threading
-
-class donwloader(threading.Thread):
-    def __init__(self,name):
-        super().__init__()
-        self.name = name
-    def thread_download():
-        time.sleep(5)
-        getdata = db.load_link()
-        download.download(getdata)
 
 ## route area
 @app.route('/')
@@ -87,8 +77,12 @@ def dbjob():
 
 @app.route('/update', methods = ['GET','POST','PUT'])
 def ytdlp_update():
-    #YT-DLP UPDATE
-    return "WTF"
+    try:
+        os.system("pip install -U yt-dlp")
+        return({"result":"sucess"})
+    except:
+        return({"result":"faild"})
+
 
 
 #Double Threading.. Find New method to opearte 
@@ -97,7 +91,6 @@ def thread_download():
     while True:
         getdata = db.load_link()
         print(download.check_download(getdata))
-
         time.sleep(7200)
 
 #Response({"a":"b"}, status=201, mimetype='application/json
@@ -105,6 +98,5 @@ if __name__ == "__main__":
     threading.Thread(target = thread_download).start()
     app.run(debug=True, host = '0.0.0.0')
     
-    # threading.Thread(target=thread_download).start()
     
     
