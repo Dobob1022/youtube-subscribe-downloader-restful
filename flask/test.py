@@ -67,8 +67,8 @@
 ##check require
 from modules import db, download
 
-# db.insert_link("https://www.youtube.com/playlist?list=PL9aQlZr3wxbiaAv5aD-FRXArcCrXzDcwz")
-# db.insert_link("https://www.youtube.com/channel/UCUkZCwVhUvoYWaTkujQJZ0Q")
+db.insert_link("https://www.youtube.com/playlist?list=PL9aQlZr3wxbiaAv5aD-FRXArcCrXzDcwz")
+db.insert_link("https://www.youtube.com/channel/UCUkZCwVhUvoYWaTkujQJZ0Q")
 
 a = db.load_link()
 
@@ -110,10 +110,10 @@ a = db.load_link()
 #         return 404
 #     return request
 
-from modules import download, db
+# from modules import download, db
 
-list = db.load_link()
+# list = db.load_link()
 
 
 
-download.download(a)
+# download.download(a)

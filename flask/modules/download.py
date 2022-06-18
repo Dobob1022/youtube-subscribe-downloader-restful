@@ -13,6 +13,7 @@ def download(download_links):
             'noplaylist' : True,
             'geo-bypass' : True,
             'ignoreerrors': True,
+            'download_archive':'./download/archive.txt',
             }
             with yt_dlp.YoutubeDL(ydl_opt) as ydl:
                 ydl.download(str(v0[0]))
@@ -26,6 +27,7 @@ def download(download_links):
             'noplaylist' : True,
             'geo-bypass' : True,
             'ignoreerrors': True,
+            'download_archive':'./download/archive.txt',
             }
             with yt_dlp.YoutubeDL(ydl_opt) as ydl:
                 ydl.download(str(v0[0]))
@@ -42,6 +44,8 @@ def check_download(link_list):
             "result":"fail",
             "code":errcode
         })
-    
-def update():
-    print(yt_dlp.update.run_update())
+    except yt_dlp.utils.ExtractorError as e:
+        return({
+            "result":"fail",
+            "code":"001"
+        })
