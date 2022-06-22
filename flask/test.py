@@ -117,3 +117,25 @@ a = db.load_link()
 
 
 # download.download(a)
+
+
+# from modules import download, db
+
+# download.only_download("https://youtu.be/RzZ3STEI35s")
+
+
+# import jwt
+
+# token = jwt.encode({"password":"dobob"},"SECRET",algorithm="HS256")
+
+# print(token)
+
+import bcrypt
+
+password = "default"
+password = password.encode('UTF-8')
+result = bcrypt.hashpw(password,bcrypt.gensalt())  #bcrypt hashing
+
+# print(result)
+
+print(bcrypt.checkpw(password,b'$2b$12$dE.iJ3tA9Kvkm/JM9Lj/weoNvN7qoAugjATO4DdEKZrrwqsis81My')) #bcrypt validate pw

@@ -1,6 +1,4 @@
-from concurrent.futures import thread
-from flask import Flask, render_template, request, flash, redirect, session, Response,jsonify
-import yt_dlp
+from flask import Flask,request, Response,jsonify
 from modules import db, download
 import os
 import re
@@ -29,7 +27,7 @@ def link_avaliablity(url):
     if str(request).find("404") == -1:
         pass
     else:
-        return 404
+        return ({"result":"404"})
     return True
 
 ## route area
@@ -74,6 +72,18 @@ def dbjob():
         return Response(status=405)
 
 
+@app.route('/login', methods = ['GET','POST'])
+def changepw():
+    if request.method == "GET":
+        return Response(status=405)
+
+    elif request.method == "POST":
+        password = request.form.get("password")
+        print(password)
+        return password
+    else:
+        return Response(status=405)
+
 
 @app.route('/update', methods = ['GET','POST','PUT'])
 def ytdlp_update():
@@ -81,11 +91,9 @@ def ytdlp_update():
         os.system("pip install -U yt-dlp")
         return({"result":"sucess"})
     except:
-        return({"result":"faild"})
+        return({"result":"failed"})
 
 
-
-#Double Threading.. Find New method to opearte 
 
 def thread_download():
     while True:
@@ -95,7 +103,7 @@ def thread_download():
 
 #Response({"a":"b"}, status=201, mimetype='application/json
 if __name__ == "__main__":
-    threading.Thread(target = thread_download).start()
+    # threading.Thread(target = thread_download).start()
     app.run(debug=True, host = '0.0.0.0')
     
     

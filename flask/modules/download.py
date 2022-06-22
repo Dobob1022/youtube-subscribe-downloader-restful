@@ -49,3 +49,18 @@ def check_download(link_list):
             "result":"fail",
             "code":"001"
         })
+
+def only_download(link):
+    ydl_opt = {
+            'outtmpl': './download/playlists/%(playlist_title)s/''%(title)s.%(ext)s',
+            'format': 'best', #sel best qulity 
+            'continue' : True,
+            'verbose' : True,
+            'no-overwrites' : True,
+            'noplaylist' : True,
+            'geo-bypass' : True,
+            'ignoreerrors': True,
+            'download_archive':'./download/archive.txt',
+            }
+    with yt_dlp.YoutubeDL(ydl_opt) as ydl:
+        ydl.download(link)
