@@ -65,27 +65,16 @@
 
 
 ##check require
-from modules import db, download
+# from modules import db, download
 
-db.insert_link("https://www.youtube.com/playlist?list=PL9aQlZr3wxbiaAv5aD-FRXArcCrXzDcwz")
-db.insert_link("https://www.youtube.com/channel/UCUkZCwVhUvoYWaTkujQJZ0Q")
+# db.insert_link("https://www.youtube.com/playlist?list=PL9aQlZr3wxbiaAv5aD-FRXArcCrXzDcwz")
+# db.insert_link("https://www.youtube.com/channel/UCUkZCwVhUvoYWaTkujQJZ0Q")
 
-a = db.load_link()
+# a = db.load_link()
 
 
 
 # b = download.channel_playlist(a)
-
-#validate playlist
-# def sex(link_lists):
-#   result = []
-#   for v0 in range(len(link_lists)):
-#     link_list = link_lists[v0][0]
-#     if 'playlist' in link_list:
-#       result.append(link_list)
-#   return result
-
-# print(sex(a))
 
 
 # print(a)
@@ -131,11 +120,14 @@ a = db.load_link()
 # print(token)
 
 import bcrypt
+from modules import db
 
-password = "default"
-password = password.encode('UTF-8')
-result = bcrypt.hashpw(password,bcrypt.gensalt())  #bcrypt hashing
+password = "134".encode('UTF-8')
 
-# print(result)
+db_pw = db.load_password()
+db_pw = db_pw[0][0]
 
-print(bcrypt.checkpw(password,b'$2b$12$dE.iJ3tA9Kvkm/JM9Lj/weoNvN7qoAugjATO4DdEKZrrwqsis81My')) #bcrypt validate pw
+db_pw = db_pw.encode('UTF-8')
+
+
+print(bcrypt.checkpw(password,db_pw))

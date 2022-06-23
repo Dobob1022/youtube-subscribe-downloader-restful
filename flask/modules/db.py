@@ -4,6 +4,7 @@ from sqlalchemy.orm import declarative_base
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy import Column, Integer, String, DateTime
 import datetime
+import bcrypt
 
 engine = create_engine('sqlite:///db.sqlite3')#, echo=True)
 
@@ -70,3 +71,21 @@ def load_password():
   query_data = session.query(Auth.password).all()
   session.close()
   return query_data
+
+
+#Initalize Default Password
+default_password_exist = session.query(Auth.password).all()
+if default_password_exist == []:
+  password = "defaultpassword".encode('UTF-8')
+  encodepassword = bcrypt.hashpw(password,bcrypt.gensalt()).decode('UTF-8')
+  query = Auth(password=encodepassword)
+  try:
+    session.add(query)
+    session.commit()
+    session.close()
+  except:
+    session.rollback()
+    session.close()
+
+else:
+  session.close()

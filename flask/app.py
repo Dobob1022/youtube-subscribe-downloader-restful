@@ -7,6 +7,7 @@ import requests
 import threading
 import time
 import re
+import bcrypt
 
 app = Flask(__name__)
 app.secret_key = os.urandom(32)
@@ -73,16 +74,28 @@ def dbjob():
 
 
 @app.route('/login', methods = ['GET','POST'])
-def changepw():
+def login():
     if request.method == "GET":
-        return Response(status=405)
+        return Response(status=405) #temporly disabled
 
     elif request.method == "POST":
         password = request.form.get("password")
-        print(password)
-        return password
+        dbpassword = db.load_password()[0][0]
+        if (bcrypt.checkpw(password.encode('UTF-8'),dbpassword.encode('UTF-8'))) == False:
+            return "FUCKYOU"
+        elif (bcrypt.checkpw(password.encode('UTF-8'),dbpassword.encode('UTF-8'))) == True:
+            return "SUCESS!"
+        else:
+            return "Something is worng"
+
+        #login fucntion(query from db, comapre with bcrypt, make a jwt)
     else:
         return Response(status=405)
+@app.route('/password', methods=['PUT'])
+def changepw():
+    if request.method == "PUT":
+        pass
+        #password update fucntion reqired
 
 
 @app.route('/update', methods = ['GET','POST','PUT'])
