@@ -8,7 +8,7 @@ import threading
 import time
 import re
 import bcrypt
-
+import yt_dlp
 app = Flask(__name__)
 app.secret_key = os.urandom(32)
 
@@ -30,6 +30,14 @@ def link_avaliablity(url):
     else:
         return ({"result":"404"})
     return True
+
+def get_channel_name(url):
+    ydl_opts = {}
+    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+        info = ydl.extract_info(url, download=False)
+    channel_name=json.dumps(ydl.sanitize_info(info))
+    json_data = json.loads(channel_name)
+    return json_data['uploader']
 
 ## route area
 @app.route('/')
@@ -57,18 +65,19 @@ def dbjob():
         else:
             #link check
             request_url = params['link']
+            print(request_url)
             if youtube_url_validation(request_url) == True:
                 #404 check
                 if link_avaliablity(request_url) ==  True:
+                    name = get_channel_name(request_url)
                     #DB INSERT
-                    return db.insert_link(params['link']),200
+                    return db.insert_link(request_url,name),200
                 else:
                     return jsonify({"msg":"Invaild_Youtube_Link"}),400
             else:
                 return jsonify({"msg":"Invaild_Youtube_Link"}),400
 
             # return jsonify({"msg": "OK"}), 200
-        
     else:
         return Response(status=405)
 

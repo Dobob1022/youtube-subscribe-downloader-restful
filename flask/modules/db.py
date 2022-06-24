@@ -1,4 +1,3 @@
-from sqlite3 import Date
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.exc import IntegrityError
@@ -18,6 +17,7 @@ class List(Base):
     __tablename__ = 'lists'
     id = Column(Integer, primary_key=True, autoincrement=True)
     link = Column(String,unique=True)
+    name = Column(String,unique=True)
     date = Column(DateTime, default=datetime.datetime.utcnow)
 
 class Auth(Base):
@@ -34,8 +34,8 @@ session = Session()
 
 
 #Lists table fucntion
-def insert_link(link):
-  query = List(link=link)
+def insert_link(link,name):
+  query = List(link=link,name=name)
   try:
     session.add(query)
     session.commit()

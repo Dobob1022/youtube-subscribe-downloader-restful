@@ -119,15 +119,29 @@
 
 # print(token)
 
-import bcrypt
-from modules import db
+# import bcrypt
+# from modules import db
 
-password = "134".encode('UTF-8')
+# password = "defaultpassword".encode('UTF-8')
 
-db_pw = db.load_password()
-db_pw = db_pw[0][0]
+# db_pw = db.load_password()
+# db_pw = db_pw[0][0]
 
-db_pw = db_pw.encode('UTF-8')
+# db_pw = db_pw.encode('UTF-8')
 
 
-print(bcrypt.checkpw(password,db_pw))
+# print(bcrypt.checkpw(password,db_pw))
+import json
+import yt_dlp
+
+URL = 'https://www.youtube.com/channel/UCUkZCwVhUvoYWaTkujQJZ0Q'
+
+# ℹ️ See help(yt_dlp.YoutubeDL) for a list of available options and public functions
+ydl_opts = {}
+with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+    info = ydl.extract_info(URL, download=False)
+
+    # ℹ️ ydl.sanitize_info makes the info json-serializable
+    channel_name=json.dumps(ydl.sanitize_info(info))
+    json_data = json.loads(channel_name)
+    print(channel_name['uploader'])
