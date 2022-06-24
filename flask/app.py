@@ -8,7 +8,8 @@ import threading
 import time
 import re
 import bcrypt
-import yt_dlp
+from bs4 import BeautifulSoup as bs
+from urllib.request import urlopen, Request
 app = Flask(__name__)
 app.secret_key = os.urandom(32)
 
@@ -32,12 +33,10 @@ def link_avaliablity(url):
     return True
 
 def get_channel_name(url):
-    ydl_opts = {}
-    with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-        info = ydl.extract_info(url, download=False)
-    channel_name=json.dumps(ydl.sanitize_info(info))
-    json_data = json.loads(channel_name)
-    return json_data['uploader']
+    url_opener = urlopen(Request(url, headers={'User-Agent': 'Mozilla'}))
+    videoInfo = bs(url_opener, features="html.parser")
+    video_title = videoInfo.title.get_text()
+    return video_title
 
 ## route area
 @app.route('/')
@@ -49,12 +48,14 @@ def dbjob():
     if request.method=="GET":
         #readDB Function Required
         getdata = db.load_link()
-        result = []
+        links = []
+        names = []
         for v0 in getdata:
-            result.append(v0[0])
-            print(v0[0])
-        jsonoutput = json.dumps(result)
-        return jsonoutput
+            links.append(v0[0])
+        for v0 in getdata:
+            names.append(v0[1])
+        dictionary = dict(zip(links, names))
+        return dictionary
 
 
     elif request.method=="POST":
@@ -85,7 +86,8 @@ def dbjob():
 @app.route('/login', methods = ['GET','POST'])
 def login():
     if request.method == "GET":
-        return Response(status=405) #temporly disabled
+        return 0/0
+        # return Response(status=405) #temporly disabled
 
     elif request.method == "POST":
         password = request.form.get("password")

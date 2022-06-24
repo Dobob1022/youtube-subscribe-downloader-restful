@@ -48,7 +48,7 @@ def insert_link(link,name):
     return ({"result":"OK"})
 
 def load_link():
-  query_data = session.query(List.link).all()
+  query_data = session.query(List.link,List.name).all()
   session.close()
   return query_data
 
