@@ -1,3 +1,4 @@
+from typing import final
 from flask import Flask,request, Response,jsonify
 from modules import db, download
 import os
@@ -10,8 +11,17 @@ import re
 import bcrypt
 from bs4 import BeautifulSoup as bs
 from urllib.request import urlopen, Request
+import ast
+#CORS
+from flask_cors import CORS
+
+#flaskthing
 app = Flask(__name__)
 app.secret_key = os.urandom(32)
+CORS(app) # CORS
+
+
+
 
 ## function area
 
@@ -47,17 +57,14 @@ def main():
 def dbjob():
     if request.method=="GET":
         #readDB Function Required
-        getdata = db.load_link()
-        links = []
-        names = []
-        for v0 in getdata:
-            links.append(v0[0])
-        for v0 in getdata:
-            names.append(v0[1])
-        dictionary = dict(zip(links, names))
-        return dictionary
-
-
+        result = []
+        for dataList in db.load_link():
+            result.append({
+                'ChannelUrl': dataList[0],
+                'ChannelTitle': dataList[1]
+            })
+        return json.dumps(result)
+            
     elif request.method=="POST":
         print(request.is_json)
         params = request.get_json()
@@ -86,20 +93,19 @@ def dbjob():
 @app.route('/login', methods = ['GET','POST'])
 def login():
     if request.method == "GET":
-        return 0/0
-        # return Response(status=405) #temporly disabled
+        return Response(status=405)
 
     elif request.method == "POST":
         password = request.form.get("password")
         dbpassword = db.load_password()[0][0]
         if (bcrypt.checkpw(password.encode('UTF-8'),dbpassword.encode('UTF-8'))) == False:
-            return "FUCKYOU"
+            # password incorrect
+            return "MAN FUCKYOU I will see you at work"
         elif (bcrypt.checkpw(password.encode('UTF-8'),dbpassword.encode('UTF-8'))) == True:
+            # password correct!
             return "SUCESS!"
         else:
             return "Something is worng"
-
-        #login fucntion(query from db, comapre with bcrypt, make a jwt)
     else:
         return Response(status=405)
 @app.route('/password', methods=['PUT'])

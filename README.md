@@ -19,7 +19,7 @@ When initializing web server, it will be start the download from DB!
 The Channel and Playlist is available!
 
 ```json
-Method = POST
+
 {
   "link":"youtube_link"
 }
