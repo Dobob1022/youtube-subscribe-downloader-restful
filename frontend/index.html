@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <div id='IncludedContent'></div>
+    <div id='includedContent'></div>
     <div class="mb-3">
         <label for="exampleFormControlInput1" class="form-label">Youtube Channel Link</label>
         <input type="url" class="form-control" id="youtubeLink" placeholder="https://youtube.com/example">
@@ -29,13 +29,15 @@
             url: "http://127.0.0.1:7000/db",
             type: "POST",
             contentType:"application/json",
-            data: 
-                JSON.stringify(SendData),
+            dataType: "JSON",
+            data: JSON.stringify(SendData),
             success: (req) => {
-                alert(req);
+                console.log(req)
+                alert(req.result);
             },
             error: (req, e) => {
-                alert(req.responseText);
+                console.log(e.msg)
+                alert(e.msg);
             }
         })
     })

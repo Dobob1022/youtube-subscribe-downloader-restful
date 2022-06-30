@@ -32,16 +32,13 @@ def youtube_url_validation(url):
 
 def link_avaliablity(url):
     request = requests.get(url)
-    print(str(request))
-    if str(request).find("404") == -1:
-        pass
-    else:
-        return ({"result":"404"})
-    return True
+    if str(request).find("404") == -1: # if find function return -1 -> there is no 404 code
+        return True
+    return False
 
 def get_channel_name(url):
     url_opener = urlopen(Request(url, headers={'User-Agent': 'Mozilla'}))
-    videoInfo = bs(url_opener, features="html.parser")
+    videoInfo = bs(url_opener, features="html.parser") # bull shit
     video_title = videoInfo.title.get_text()
     return video_title
 
@@ -50,10 +47,9 @@ def get_channel_name(url):
 def main():
     return Response(status=405)
 
-@app.route('/db', methods = ['GET','POST'])
+@app.route('/db', methods = ['GET','POST']) 
 def dbjob():
     if request.method=="GET":
-        #readDB Function Required
         result = []
         for dataList in db.load_link():
             result.append({
@@ -61,28 +57,19 @@ def dbjob():
                 'ChannelTitle': dataList[1]
             })
         return json.dumps(result)
-            
     elif request.method=="POST":
         params = request.get_json()
-        print(params)
-        if not request.is_json:
+        if not request.is_json: #is json format?
             return ({"msg": "Missing JSON in request"})
         else:
             #link check
             request_url = params['link']
-            print(request_url)
-            if youtube_url_validation(request_url) == True:
+            # print(request_url) 말그대로 url
+            if youtube_url_validation(request_url) != True or link_avaliablity(request_url) !=  True: #404 or youtube link validation
+                return ({"msg":"Invaild_Youtube_Link"})
                 #404 check
-                if link_avaliablity(request_url) ==  True:
-                    name = get_channel_name(request_url)
-                    #DB INSERT
-                    return db.insert_link(request_url,name)
-                else:
-                    return jsonify({"msg":"Invaild_Youtube_Link"}),400
-            else:
-                return jsonify({"msg":"Invaild_Youtube_Link"}),400
-
-            # return jsonify({"msg": "OK"}), 200
+            name = get_channel_name(request_url)
+            return db.insert_link(request_url, name),200
     else:
         return Response(status=405)
 
@@ -91,10 +78,9 @@ def dbjob():
 def login():
     if request.method == "GET":
         return Response(status=405)
-
     elif request.method == "POST":
         password = request.form.get("password")
-        dbpassword = db.load_password()[0][0]
+        dbpassword = db.load_password()[0][0] 
         if (bcrypt.checkpw(password.encode('UTF-8'),dbpassword.encode('UTF-8'))) == False:
             # password incorrect
             return "Password incorrect"
