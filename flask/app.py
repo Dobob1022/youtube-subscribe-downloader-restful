@@ -20,9 +20,6 @@ app = Flask(__name__)
 app.secret_key = os.urandom(32)
 CORS(app) # CORS
 
-
-
-
 ## function area
 
 
@@ -66,10 +63,10 @@ def dbjob():
         return json.dumps(result)
             
     elif request.method=="POST":
-        print(request.is_json)
         params = request.get_json()
+        print(params)
         if not request.is_json:
-            return jsonify({"msg": "Missing JSON in request"}), 400
+            return ({"msg": "Missing JSON in request"})
         else:
             #link check
             request_url = params['link']
@@ -79,7 +76,7 @@ def dbjob():
                 if link_avaliablity(request_url) ==  True:
                     name = get_channel_name(request_url)
                     #DB INSERT
-                    return db.insert_link(request_url,name),200
+                    return db.insert_link(request_url,name)
                 else:
                     return jsonify({"msg":"Invaild_Youtube_Link"}),400
             else:
@@ -100,7 +97,7 @@ def login():
         dbpassword = db.load_password()[0][0]
         if (bcrypt.checkpw(password.encode('UTF-8'),dbpassword.encode('UTF-8'))) == False:
             # password incorrect
-            return "MAN FUCKYOU I will see you at work"
+            return "Password incorrect"
         elif (bcrypt.checkpw(password.encode('UTF-8'),dbpassword.encode('UTF-8'))) == True:
             # password correct!
             return "SUCESS!"
@@ -134,7 +131,7 @@ def thread_download():
 #Response({"a":"b"}, status=201, mimetype='application/json
 if __name__ == "__main__":
     # threading.Thread(target = thread_download).start()
-    app.run(debug=True, host = '0.0.0.0')
+    app.run(debug=True, host = '0.0.0.0',port=7000)
     
     
     
