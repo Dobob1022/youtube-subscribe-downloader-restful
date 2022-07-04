@@ -100,7 +100,7 @@ def login():
             # password correct!
             return "SUCESS!"
         else:
-            return "Something is worng"
+            return "Something is Wrong"
     else:
         return Response(status=405)
 @app.route('/api/password', methods=['PUT'])
@@ -125,7 +125,6 @@ def thread_download():
         print(download.check_download(getdata))
         time.sleep(7200)
 
-#Response({"a":"b"}, status=201, mimetype='application/json
 if __name__ == "__main__":
     # threading.Thread(target = thread_download).start()
     app.run(debug=True, host = '0.0.0.0',port=7000)

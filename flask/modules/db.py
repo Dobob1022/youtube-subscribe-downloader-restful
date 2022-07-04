@@ -13,7 +13,7 @@ Base = declarative_base()
 
 
 
-
+# List 
 class List(Base):
     __tablename__ = 'lists'
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -76,13 +76,14 @@ def load_password():
 #delete from list
 def delete_link(remove_link):
   if session.query(List).filter(List.link==remove_link).delete() == 1:
+    session.query(List).filter(List.link.in_(remove_link)).delete()
     session.commit()
     session.close()
     return ({"msg":"Sucessfully Deleted!"})
   else:
     session.rollback()
     session.close()
-    return ({"msg":"Channel Link Not Found"})
+    return ({"msg":"Requested Link Not Found"})
 
 #Initalize Default Password
 default_password_exist = session.query(Auth.password).all()
