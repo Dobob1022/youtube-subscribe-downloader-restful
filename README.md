@@ -141,7 +141,7 @@ Soon I will update Delete from frontend.
 
 ### Special Thanks to <3
 
-Andrew Bae
+[@Andrew Bae](https://github.com/andrewbae)
 
 
 
