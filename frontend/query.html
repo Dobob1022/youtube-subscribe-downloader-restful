@@ -13,17 +13,22 @@
 
 <body>
     <div id='includedContent'></div>
-    <button type="button" class="btn btn-primary" , id="query">Query</button>
-    <table id="data" class="table table-bordered">
-        <thread>
-            <tr>
-                <th>Chnnel_Title</th>
-                <th>Channel_URL</th>
-                <th>Checkbox</th>
-            </tr>
-        </thread>
-    </table>
-    <button type="button" class="btn btn-primary" id="delate">Delate</button>
+    <div class="container">
+
+        <button type="button" class="btn btn-primary" id="query">Query</button>
+        <table class="table table-bordered">
+            <thread>
+                <tr>
+                    <th>Chnnel_Title</th>
+                    <th>Channel_URL</th>
+                </tr>
+            </thread>
+            <tbody id="youtubeChannelQueryRequest">
+                
+            </tbody>
+        </table>
+    </div>
+
 </body>
 
 <script>
@@ -31,7 +36,7 @@
         var filename = "components/navbar.html";
         $("#includedContent").load(filename);
     })
-    const endpoint = "http://127.0.0.1:7000/db"
+    const endpoint = "http://dobob.iptime.org:7000/api/db"
     $(document).on('click', "#query", () => {
         $.ajax({
             url: endpoint,
@@ -40,28 +45,16 @@
             dataType: "json",
             success: (req) => {
                 console.log(req);
+                $("#youtubeChannelQueryRequest").empty();
                 for (let row of req) 
-                    $("#data").append(`<tr><td>${row.ChannelTitle}</td><td>${row.ChannelUrl}</td><input type="checkbox" id = delateList></input></tr>`); 
+                    $("#youtubeChannelQueryRequest").append(`<tr><td>${row.Title}</td><td>${row.URL}</td></tr>`); 
             },
             error: (req, e) => {
-                console.log(`${req}, ${e}`);
+                console.log(`${req.toJson()}, ${e}`);
             }
         })
     })
-    $(document).on('click',"delate",() => {
-        $.ajax({
-            url:endpoint,
-            type:"delate",
-            dataType: "json",
-            success: (req)=>{
-                console.log(req)
-            },
-            error: (req,e) => {
-                console.log(`${req},${e}`)
-            }
-
-        })
-    })
+ 
 </script>
 
 </html>

@@ -1,4 +1,3 @@
-from requests import delete
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.exc import IntegrityError
@@ -6,10 +5,10 @@ from sqlalchemy import Column, Integer, String, DateTime, delete
 import datetime
 import bcrypt
 
-engine = create_engine('sqlite:///db.sqlite3')#, echo=True)
+
+engine = create_engine('sqlite:///db.sqlite3?check_same_thread=False')#, echo=True)
 
 Base = declarative_base()
-
 
 
 

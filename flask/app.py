@@ -13,6 +13,7 @@ from urllib.request import urlopen, Request
 #CORS
 from flask_cors import CORS
 
+
 #flaskthing
 app = Flask(__name__)
 app.secret_key = os.urandom(32)
