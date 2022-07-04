@@ -48,7 +48,7 @@ def insert_link(link,name):
     return ({"msg":"OK"})
 
 def load_link():
-  query_data = session.query(List.link,List.name).all()
+  query_data = session.query(List.id,List.link,List.name).all()
   session.close()
   return query_data
 
@@ -73,9 +73,8 @@ def load_password():
   return query_data
 
 #delete from list
-def delete_link(remove_link):
-  if session.query(List).filter(List.link==remove_link).delete() == 1:
-    session.query(List).filter(List.link.in_(remove_link)).delete()
+def delete_link(removed_id):
+  if session.query(List).filter(List.id.in_(removed_id)).delete() != 0:
     session.commit()
     session.close()
     return ({"msg":"Sucessfully Deleted!"})
@@ -83,6 +82,7 @@ def delete_link(remove_link):
     session.rollback()
     session.close()
     return ({"msg":"Requested Link Not Found"})
+
 
 #Initalize Default Password
 default_password_exist = session.query(Auth.password).all()

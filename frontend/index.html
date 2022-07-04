@@ -20,6 +20,7 @@
 </body>
 
 <script>
+    
     $(function(){
         var filename = "components/navbar.html";
         $("#includedContent").load(filename);
@@ -27,7 +28,7 @@
     $(document).on('click', "#submit", () => {
         let SendData = {"link": $('#youtubeLink').val()}
         $.ajax({
-            url: "http://127.0.0.1:7000/api/db",
+            url: "http://dobob.iptime.org:7000/api/db",
             type: "POST",
             contentType:"application/json",
             dataType: "JSON",

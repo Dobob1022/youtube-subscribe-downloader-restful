@@ -13,7 +13,6 @@ from urllib.request import urlopen, Request
 #CORS
 from flask_cors import CORS
 
-
 #flaskthing
 app = Flask(__name__)
 app.secret_key = os.urandom(32)
@@ -53,15 +52,19 @@ def dbjob():
         result = []
         for dataList in db.load_link():
             result.append({
-                'Title': dataList[1],
-                'URL': dataList[0]
+                'id':dataList[0],
+                'Title': dataList[2],
+                'URL': dataList[1]
             })
         # return json format result
+        if result == []:
+            return ({"msg":"List is Empty"}),500
         return json.dumps(result)
 
     ## Insert Link Fucntion
     elif request.method=="POST":
         params = request.get_json()
+        print(params)
         if not request.is_json: #is json format?
             return ({"msg": "Missing JSON in request"})
         else:
@@ -79,13 +82,16 @@ def dbjob():
         if not request.is_json:
             return ({"msg": "Missing JSON in request"})
         else:
-            request_url = params["link"]
-            return db.delete_link(request_url)
+            idList = json.loads(json.dumps(params))
+            ids = []
+            for v0 in idList:
+                ids.append(int(v0['id']))
+            return db.delete_link(ids)
+
 
     #wrong method execption
     else:
         return Response(status=405)
-
 
 @app.route('/api/login', methods = ['GET','POST'])
 def login():

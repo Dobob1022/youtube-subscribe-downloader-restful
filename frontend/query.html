@@ -15,16 +15,17 @@
     <div id='includedContent'></div>
     <div class="container">
 
-        <button type="button" class="btn btn-primary" id="query">Query</button>
+        <button type="button" class="btn btn-primary" id="eventQuery">Query</button>
+        <button type="button" class="btn btn-primary" id="eventDelete">Delete checked</button>
         <table class="table table-bordered">
             <thread>
                 <tr>
+                    <th>Checkbox</th>
                     <th>Chnnel_Title</th>
                     <th>Channel_URL</th>
                 </tr>
             </thread>
-            <tbody id="youtubeChannelQueryRequest">
-                
+            <tbody id="queryResponse">
             </tbody>
         </table>
     </div>
@@ -32,29 +33,56 @@
 </body>
 
 <script>
+    const endpoint = "http://dobob.iptime.org:7000/api/db"
+
     $(function () {
         var filename = "components/navbar.html";
         $("#includedContent").load(filename);
     })
-    const endpoint = "http://dobob.iptime.org:7000/api/db"
-    $(document).on('click', "#query", () => {
+
+    $(document).on('click', "#eventDelete", () => {
+        let request=[];
+        $('input[type=checkbox]:checked').map((_, checkedIdList) => {
+            for(let id of $(checkedIdList).val())
+            request.push({"id": id});
+        }).get();
+        console.log(JSON.stringify(request))
+        $.ajax({
+            url: endpoint,
+            contentType:"application/json",
+            type: "DELETE",
+            dataType: "JSON",
+            data:  JSON.stringify(request),
+            success: (req) => {
+                console.log(req);
+                alert(req.msg);
+            }
+        });
+    });
+
+    $(document).on('click', "#eventQuery", () => {
         $.ajax({
             url: endpoint,
             contentType:"application/json",
             type: "GET",
             dataType: "json",
             success: (req) => {
-                console.log(req);
-                $("#youtubeChannelQueryRequest").empty();
-                for (let row of req) 
-                    $("#youtubeChannelQueryRequest").append(`<tr><td>${row.Title}</td><td>${row.URL}</td></tr>`); 
+                $("#queryResponse").empty();
+                let count = 0;
+                console.log(req)
+                for (let row of req) {
+                    $("#queryResponse").append(`
+                        <tr><td style="text-align: center"><input class="form-check-input" type="checkbox" value="${row.id}">
+                        </td><td>${row.Title}</td><td>${row.URL}</td></tr>
+                    `);
+                    ++count;
+                }
             },
-            error: (req, e) => {
-                console.log(`${req.toJson()}, ${e}`);
+            error: function (request) {
+                alert(request.responseJSON.msg);
             }
         })
     })
- 
 </script>
 
 </html>
