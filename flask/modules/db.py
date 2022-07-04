@@ -1,7 +1,8 @@
+from requests import delete
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy import Column, Integer, String, DateTime, delete
 import datetime
 import bcrypt
 
@@ -42,10 +43,10 @@ def insert_link(link,name):
   except IntegrityError as e:
     session.rollback()
     session.close()
-    return ({"result":"duplicated"})
+    return ({"msg":"duplicated"})
   else:
     session.close()
-    return ({"result":"OK"})
+    return ({"msg":"OK"})
 
 def load_link():
   query_data = session.query(List.link,List.name).all()
@@ -62,16 +63,26 @@ def change_pw(password):
   except IntegrityError as e:
     session.rollback()
     session.close()
-    return ({"result":"Not_Changed"})
+    return ({"msg":"Not_Changed"})
   else:
     session.close()
-    return ({"result":"OK"})
+    return ({"msg":"OK"})
 
 def load_password():
   query_data = session.query(Auth.password).all()
   session.close()
   return query_data
 
+#delete from list
+def delete_link(remove_link):
+  if session.query(List).filter(List.link==remove_link).delete() == 1:
+    session.commit()
+    session.close()
+    return ({"msg":"Sucessfully Deleted!"})
+  else:
+    session.rollback()
+    session.close()
+    return ({"msg":"Channel Link Not Found"})
 
 #Initalize Default Password
 default_password_exist = session.query(Auth.password).all()

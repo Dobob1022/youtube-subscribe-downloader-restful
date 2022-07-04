@@ -33,7 +33,7 @@
             data: JSON.stringify(SendData),
             success: (req) => {
                 console.log(req)
-                alert(req.result);
+                alert(req.msg);
             },
             error: (req, e) => {
                 console.log(e.msg)

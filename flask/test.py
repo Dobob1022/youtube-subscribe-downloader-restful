@@ -146,7 +146,11 @@
 #     json_data = json.loads(channel_name)
 #     print(channel_name['uploader'])
 
-a = "https://www.youtube.com/channel/UCUkZCwVhUvoYWaTkujQJZ0Q"
-b = "도밥이"
-for v0,v1 in zip(str(a),str(b)):
-    print(a,b)
+a = "https://www.youtube.com/channel/UCLJNGmEfcuugzEjLyZ6mKKw"
+# b = "도밥이"
+# for v0,v1 in zip(str(a),str(b)):
+#     print(a,b)
+
+from modules import db
+b = db.delete_link(a)
+print(b)

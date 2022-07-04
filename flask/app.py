@@ -1,5 +1,4 @@
-from typing import final
-from flask import Flask,request, Response,jsonify
+from flask import Flask,request, Response
 from modules import db, download
 import os
 import re
@@ -11,7 +10,6 @@ import re
 import bcrypt
 from bs4 import BeautifulSoup as bs
 from urllib.request import urlopen, Request
-import ast
 #CORS
 from flask_cors import CORS
 
@@ -38,7 +36,7 @@ def link_avaliablity(url):
 
 def get_channel_name(url):
     url_opener = urlopen(Request(url, headers={'User-Agent': 'Mozilla'}))
-    videoInfo = bs(url_opener, features="html.parser") # bull shit
+    videoInfo = bs(url_opener, features="html.parser")
     video_title = videoInfo.title.get_text()
     return video_title
 
@@ -47,16 +45,20 @@ def get_channel_name(url):
 def main():
     return Response(status=405)
 
-@app.route('/db', methods = ['GET','POST']) 
+@app.route('/api/db', methods = ['GET','POST','DELETE']) 
 def dbjob():
+    ## Query Link Fucntion
     if request.method=="GET":
         result = []
         for dataList in db.load_link():
             result.append({
-                'ChannelUrl': dataList[0],
-                'ChannelTitle': dataList[1]
+                'Title': dataList[1],
+                'URL': dataList[0]
             })
+        # return json format result
         return json.dumps(result)
+
+    ## Insert Link Fucntion
     elif request.method=="POST":
         params = request.get_json()
         if not request.is_json: #is json format?
@@ -64,17 +66,27 @@ def dbjob():
         else:
             #link check
             request_url = params['link']
-            # print(request_url) 말그대로 url
             if youtube_url_validation(request_url) != True or link_avaliablity(request_url) !=  True: #404 or youtube link validation
                 return ({"msg":"Invaild_Youtube_Link"})
                 #404 check
             name = get_channel_name(request_url)
             return db.insert_link(request_url, name),200
+            
+    ## Delate Link Function
+    elif request.method=="DELETE":
+        params = request.get_json()
+        if not request.is_json:
+            return ({"msg": "Missing JSON in request"})
+        else:
+            request_url = params["link"]
+            return db.delete_link(request_url)
+
+    #wrong method execption
     else:
         return Response(status=405)
 
 
-@app.route('/login', methods = ['GET','POST'])
+@app.route('/api/login', methods = ['GET','POST'])
 def login():
     if request.method == "GET":
         return Response(status=405)
@@ -91,21 +103,20 @@ def login():
             return "Something is worng"
     else:
         return Response(status=405)
-@app.route('/password', methods=['PUT'])
+@app.route('/api/password', methods=['PUT'])
 def changepw():
     if request.method == "PUT":
         pass
         #password update fucntion reqired
 
 
-@app.route('/update', methods = ['GET','POST','PUT'])
+@app.route('/api/update')
 def ytdlp_update():
     try:
         os.system("pip install -U yt-dlp")
         return({"result":"sucess"})
     except:
         return({"result":"failed"})
-
 
 
 def thread_download():
