@@ -42,7 +42,7 @@ def insert_link(link,name):
   except IntegrityError as e:
     session.rollback()
     session.close()
-    return ({"msg":"duplicated"})
+    return ({"msg":"Link is duplicated!"})
   else:
     session.close()
     return ({"msg":"OK"})
@@ -74,7 +74,7 @@ def load_password():
 
 #delete from list
 def delete_link(removed_id):
-  if session.query(List).filter(List.id.in_(removed_id)).delete() != 0:
+  if session.query(List).filter(List.id.in_(removed_id)).delete() != 0: # remove_id is list, so list remove funcion.
     session.commit()
     session.close()
     return ({"msg":"Sucessfully Deleted!"})

@@ -12,8 +12,8 @@
     <div id='includedContent'></div>
     <div class="container">
         <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">Youtube Channel Link</label>
-            <input type="url" class="form-control" id="youtubeLink" placeholder="https://youtube.com/example">
+            <label for="exampleFormControlInput1" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" placeholder="password">
           </div>
         <button type="button" class="btn btn-primary", id="submit">Submit</button>
     </div>
@@ -26,9 +26,9 @@
         $("#includedContent").load(filename);
     });
     $(document).on('click', "#submit", () => {
-        let SendData = {"link": $('#youtubeLink').val()}
+        let SendData = {"password": $('#password').val()}
         $.ajax({
-            url: "http://127.0.0.1:7000/api/db",
+            url: "http://127.0.0.1:7000/api/login",
             type: "POST",
             contentType:"application/json",
             dataType: "JSON",
@@ -36,10 +36,10 @@
             success: (req) => {
                 console.log(req)
                 alert(req.msg);
+                window.location = "http://127.0.0.1:5500/youtube-subscribe-downloader-restful/frontend/index.html"
             },
-            error: (req, e) => {
-                console.log(e.msg)
-                alert(e.msg);
+            error: function (request) {
+                alert(request.responseJSON.msg);
             }
         })
     })

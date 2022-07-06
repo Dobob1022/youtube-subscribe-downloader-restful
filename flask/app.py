@@ -1,4 +1,5 @@
-from flask import Flask,request, Response
+from flask import Flask, redirect,request, Response, session
+import jwt
 from modules import db, download
 import os
 import re
@@ -40,6 +41,7 @@ def get_channel_name(url):
     video_title = videoInfo.title.get_text()
     return video_title
 
+
 ## route area
 @app.route('/')
 def main():
@@ -71,7 +73,7 @@ def dbjob():
             #link check
             request_url = params['link']
             if youtube_url_validation(request_url) != True or link_avaliablity(request_url) !=  True: #404 or youtube link validation
-                return ({"msg":"Invaild_Youtube_Link"})
+                return ({"msg":"Invaild Youtube Link"})
                 #404 check
             name = get_channel_name(request_url)
             return db.insert_link(request_url, name),200
@@ -82,7 +84,7 @@ def dbjob():
         if not request.is_json:
             return ({"msg": "Missing JSON in request"})
         else:
-            idList = json.loads(json.dumps(params))
+            idList = json.loads(json.dumps(params)) #get json from frontend and serialize
             ids = []
             for v0 in idList:
                 ids.append(int(v0['id']))
@@ -98,18 +100,31 @@ def login():
     if request.method == "GET":
         return Response(status=405)
     elif request.method == "POST":
-        password = request.form.get("password")
+        password = request.get_json()['password']
+        if password == "":
+            return ({"msg":"Password must be not empty!"})
         dbpassword = db.load_password()[0][0] 
         if (bcrypt.checkpw(password.encode('UTF-8'),dbpassword.encode('UTF-8'))) == False:
             # password incorrect
-            return "Password incorrect"
+            return ({"msg":"Password incorrect"}),401
         elif (bcrypt.checkpw(password.encode('UTF-8'),dbpassword.encode('UTF-8'))) == True:
             # password correct!
-            return "SUCESS!"
+            session['auth'] = 'true'
+            return redirect("http://127.0.0.1:5500/youtube-subscribe-downloader-restful/frontend/index.html")
         else:
             return "Something is Wrong"
     else:
         return Response(status=405)
+
+@app.route('/api/logout', methods=["GET"])
+def logout():
+    if 'auth' in session:
+        session.pop('auth')
+        return "Logout"
+    else:
+        return "Not Loggined"
+
+
 @app.route('/api/password', methods=['PUT'])
 def changepw():
     if request.method == "PUT":
