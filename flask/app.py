@@ -1,5 +1,4 @@
 from flask import Flask, redirect,request, Response, session
-import jwt
 from modules import db, download
 import os
 import re
@@ -14,9 +13,9 @@ from urllib.request import urlopen, Request
 #CORS
 from flask_cors import CORS
 
-#flaskthing
+#flask_thing
 app = Flask(__name__)
-app.secret_key = os.urandom(32)
+app.secret_key = os.urandom(24)
 CORS(app) # CORS
 
 ## function area
@@ -41,7 +40,6 @@ def get_channel_name(url):
     video_title = videoInfo.title.get_text()
     return video_title
 
-
 ## route area
 @app.route('/')
 def main():
@@ -49,7 +47,7 @@ def main():
 
 @app.route('/api/db', methods = ['GET','POST','DELETE']) 
 def dbjob():
-    ## Query Link Fucntion
+## Query Link Fucntion
     if request.method=="GET":
         result = []
         for dataList in db.load_link():
@@ -95,6 +93,7 @@ def dbjob():
     else:
         return Response(status=405)
 
+
 @app.route('/api/login', methods = ['GET','POST'])
 def login():
     if request.method == "GET":
@@ -109,8 +108,7 @@ def login():
             return ({"msg":"Password incorrect"}),401
         elif (bcrypt.checkpw(password.encode('UTF-8'),dbpassword.encode('UTF-8'))) == True:
             # password correct!
-            session['auth'] = 'true'
-            return redirect("http://127.0.0.1:5500/youtube-subscribe-downloader-restful/frontend/index.html")
+            return ({"msg":"Login Sucessful"})
         else:
             return "Something is Wrong"
     else:
@@ -120,9 +118,9 @@ def login():
 def logout():
     if 'auth' in session:
         session.pop('auth')
-        return "Logout"
+        return ({"msg":"logout!"})
     else:
-        return "Not Loggined"
+        return ({"msg":"Not Logined!"})
 
 
 @app.route('/api/password', methods=['PUT'])
@@ -150,6 +148,7 @@ def thread_download():
 if __name__ == "__main__":
     # threading.Thread(target = thread_download).start()
     app.run(debug=True, host = '0.0.0.0',port=7000)
+    
     
     
     

@@ -36,10 +36,12 @@
             success: (req) => {
                 console.log(req)
                 alert(req.msg);
-                window.location = "http://127.0.0.1:5500/youtube-subscribe-downloader-restful/frontend/index.html"
+                sessionStorage.setItem('auth',"True")
+                $(location).attr("href", "http://127.0.0.1:5500/youtube-subscribe-downloader-restful/frontend/index.html");
             },
             error: function (request) {
                 alert(request.responseJSON.msg);
+                $(location).attr("href", "http://127.0.0.1:5500/youtube-subscribe-downloader-restful/frontend/login.html");
             }
         })
     })

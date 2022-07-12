@@ -21,6 +21,7 @@
 
 <script>
     
+    
     $(function(){
         var filename = "components/navbar.html";
         $("#includedContent").load(filename);
@@ -37,9 +38,8 @@
                 console.log(req)
                 alert(req.msg);
             },
-            error: (req, e) => {
-                console.log(e.msg)
-                alert(e.msg);
+            error: function (request) {
+                alert(request.responseJSON.msg);
             }
         })
     })
