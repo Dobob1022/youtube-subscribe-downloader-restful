@@ -8,6 +8,8 @@ import threading
 import time
 import re
 import bcrypt
+import jwt
+import jwt.exceptions
 from bs4 import BeautifulSoup as bs
 from urllib.request import urlopen, Request
 #CORS
@@ -20,6 +22,14 @@ CORS(app) # CORS
 
 ## function area
 
+def jwtVerify(token):
+    try:
+        decode = jwt.decode(token.replace("Bearer ", ""), "yee yee ass hair cut", algorithms="HS256") 
+        print(decode)
+        if decode['login'] == "true":
+            return True
+    except jwt.exceptions.DecodeError as e:
+        return False
 
 def youtube_url_validation(url):
     regex = r"^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube(-nocookie)?\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$"
@@ -47,6 +57,8 @@ def main():
 
 @app.route('/api/db', methods = ['GET','POST','DELETE']) 
 def dbjob():
+    if jwtVerify(request.headers.get('Authorization')) == False:
+        return ({"msg":"Not Logined"}),401
 ## Query Link Fucntion
     if request.method=="GET":
         result = []
@@ -64,7 +76,6 @@ def dbjob():
     ## Insert Link Fucntion
     elif request.method=="POST":
         params = request.get_json()
-        print(params)
         if not request.is_json: #is json format?
             return ({"msg": "Missing JSON in request"})
         else:
@@ -108,7 +119,8 @@ def login():
             return ({"msg":"Password incorrect"}),401
         elif (bcrypt.checkpw(password.encode('UTF-8'),dbpassword.encode('UTF-8'))) == True:
             # password correct!
-            return ({"msg":"Login Sucessful"})
+            accessToken = jwt.encode({"login":"true"}, "yee yee ass hair cut",algorithm="HS256")
+            return ({"msg": accessToken })
         else:
             return "Something is Wrong"
     else:
@@ -132,6 +144,8 @@ def changepw():
 
 @app.route('/api/update')
 def ytdlp_update():
+    if jwtVerify(request.headers.get('Authorization')) == False:
+        return ({"msg":"Not Logined"}),401
     try:
         os.system("pip install -U yt-dlp")
         return({"result":"sucess"})

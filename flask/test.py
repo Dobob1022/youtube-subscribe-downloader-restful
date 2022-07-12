@@ -154,3 +154,15 @@
 # from modules import db
 # b = db.delete_link(a)
 # print(b)
+
+import jwt
+
+accessToken = jwt.encode({"":""}, "yee yee ass hair cut",algorithm="HS256")
+print(accessToken)
+decode = jwt.decode(accessToken, "yee yee ass hair cut", algorithms="HS256")
+print(decode)
+
+if decode[''] == '':
+    print("fuckyou")
+else:
+    print("DICK")

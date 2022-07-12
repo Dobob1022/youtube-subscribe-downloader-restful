@@ -27,9 +27,6 @@
                 <a class="nav-link" href="login.html">Login</a>
             </li>
             <li class ="nav-item">
-                <a class="nav-link" id="logout">logout</a>
-            </li>
-            <li class ="nav-item">
                 <a class="nav-link" href="http://127.0.0.1:7000/api/update">update_yt_dlp</a>
             </li>
             <li class="nav-item">
@@ -72,20 +69,6 @@
 </div>
     </body>
     <script>
-        $(document).on('click', "#logout", () => {
-        $.ajax({
-            url: "http://127.0.0.1:7000/api/logout",
-            type: "GET",
-            success: (req) => {
-                console.log(req)
-                alert(req.msg);
-            },
-            error: (req, e) => {
-                console.log(e.msg)
-                alert(e.msg);
-            }
-        })
-    })
     </script>
 </html>
 
