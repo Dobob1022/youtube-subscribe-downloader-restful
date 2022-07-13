@@ -160,7 +160,7 @@ def thread_download():
         time.sleep(7200)
 
 if __name__ == "__main__":
-    # threading.Thread(target = thread_download).start()
+    threading.Thread(target = thread_download).start()
     app.run(debug=True, host = '0.0.0.0',port=7000)
     
     

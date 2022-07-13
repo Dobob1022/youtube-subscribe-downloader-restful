@@ -2,11 +2,11 @@
 
 ## Welcome to the This Toy-Project!
 
-Every communication must be RESTful API!
+Every communication will use RESTful API and JSON!
 
 ### Used Library
 
-Backend - Python(Flask),yt_dlp
+Backend - Python(Flask),yt_dlp,ETC...
 
 Frontend - HTML+Bootstrap+Jquery
 
@@ -87,13 +87,16 @@ So is very unsafe to use.
 
 Please change Password after install the Server.
 
+인증은 JWT를 사용합니다.
+
 ```
 EndPoint : ServerIP:Port/api/password
 Method : "PUT"
 
-Not Available NOW :(
+{
+	"password":"password"
+}
 
-Soon I will update Password Change Page, and Using to JWT to authenticate Every Page!
 
 ```
 
@@ -129,20 +132,13 @@ But now, You can't change interval time to download.
 
 Soon The Change time function will be update. Please wait Until new update
 
-
-
-### FrontEnd with html+bootstrap+jquery
-
-Now it's Just only Add Link and Query From the DB.
-
-Soon I will update Delete from frontend.
+Now, The Update Interval is every "2Hours".
 
 
 
 ### Special Thanks to <3
 
 [@Andrew Bae](https://github.com/andrewbae)
-
 
 
 
