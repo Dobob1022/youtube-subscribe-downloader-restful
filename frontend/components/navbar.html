@@ -26,8 +26,11 @@
             <li class="nav-item">
                 <a class="nav-link" href="login.html">Login</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="Change_pw.html">Change Password</a>
+            </li>
             <li class ="nav-item">
-                <a class="nav-link" href="http://127.0.0.1:7000/api/update">update_yt_dlp</a>
+                <a class="nav-link" id="update">update_yt_dlp</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="https://github.com/Dobob1022/youtube-subscribe-downloader-restful" target="_blank">Project Github</a>
@@ -69,6 +72,23 @@
 </div>
     </body>
     <script>
+        $(document).on('click', "#update", () => {
+        $.ajax({
+            url: "http://127.0.0.1:7000/api/update",
+            type: "POST",
+            headers: {
+                'Authorization': `Bearer ${Cookies.get('token')}`
+            },
+            contentType:"application/json",
+            success: (req) => {
+                console.log(req)
+                alert(req.msg);
+            },
+            error: function (request) {
+                alert(request.responseJSON.msg)
+            }
+        })
+    })
     </script>
 </html>
 

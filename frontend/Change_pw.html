@@ -13,37 +13,55 @@
     <div id='includedContent'></div>
     <div class="container">
         <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">Youtube Channel Link</label>
-            <input type="url" class="form-control" id="youtubeLink" placeholder="https://youtube.com/example">
+            <label for="exampleFormControlInput1" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" placeholder="password">
+            <input type="password" class="form-control" id="password_re" placeholder="password Retype">
           </div>
         <button type="button" class="btn btn-primary", id="submit">Submit</button>
     </div>
 </body>
 
-<script>    
+<script>
     $(function(){
         var filename = "components/navbar.html";
         $("#includedContent").load(filename);
-    });
+    });  
     $(document).on('click', "#submit", () => {
-        let SendData = {"link": $('#youtubeLink').val()}
-        $.ajax({
-            url: "http://127.0.0.1:7000/api/db",
-            type: "POST",
-            contentType:"application/json",
-            dataType: "JSON",
-            data: JSON.stringify(SendData),
-            headers: {
+        let SendData = {"password": $('#password').val()}
+        let pwd1 =$("#password").val()
+        let pwd2 =$("#password_re").val()
+        console.log(pwd1)
+        console.log(pwd2)
+        if(pwd1 == "" || pwd2 == ""){
+            alert("Password Must be not empty!")
+        }
+        else{
+            if(pwd1 == pwd2){
+                console.log("WORS")
+                $.ajax({
+                url: "http://127.0.0.1:7000/api/password",
+                type: "PUT",
+                contentType:"application/json",
+                dataType: "JSON",
+                data: JSON.stringify(SendData),
+                headers: {
                 'Authorization': `Bearer ${Cookies.get('token')}`
-            },
-            success: (req) => {
-                console.log(req)
-                alert(req.msg);
-            },
+                },
+                success: (req) => {
+                    console.log(req)
+                    alert(req.msg);
+                },
             error: function (request) {
                 alert(request.responseJSON.msg);
+                    }
+                })
+
             }
-        })
+            else{
+                alert("Password is not Same!")
+            }
+            }
+       
     })
 </script>
 </html>

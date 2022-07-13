@@ -155,14 +155,19 @@
 # b = db.delete_link(a)
 # print(b)
 
-import jwt
+# import jwt
 
-accessToken = jwt.encode({"":""}, "yee yee ass hair cut",algorithm="HS256")
-print(accessToken)
-decode = jwt.decode(accessToken, "yee yee ass hair cut", algorithms="HS256")
-print(decode)
+# accessToken = jwt.encode({"":""}, "yee yee ass hair cut",algorithm="HS256")
+# print(accessToken)
+# decode = jwt.decode(accessToken, "yee yee ass hair cut", algorithms="HS256")
+# print(decode)
 
-if decode[''] == '':
-    print("fuckyou")
-else:
-    print("DICK")
+# if decode[''] == '':
+#     print("fuckyou")
+# else:
+#     print("DICK")
+
+import bcrypt
+
+hash = "$2b$12$YcScIxgLJQL5SRw3huoP8.UJFDCKtVz3wJe9zyN5pFGJfq.FxRcPO"
+print(bcrypt.checkpw("defaultpassword".encode('UTF-8'),hash.encode('UTF-8')))

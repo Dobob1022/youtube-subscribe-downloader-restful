@@ -1,3 +1,4 @@
+from urllib import response
 from flask import Flask, redirect,request, Response, session
 from modules import db, download
 import os
@@ -29,6 +30,8 @@ def jwtVerify(token):
         if decode['login'] == "true":
             return True
     except jwt.exceptions.DecodeError as e:
+        return False
+    except AttributeError as e:
         return False
 
 def youtube_url_validation(url):
@@ -122,35 +125,32 @@ def login():
             accessToken = jwt.encode({"login":"true"}, "yee yee ass hair cut",algorithm="HS256")
             return ({"msg": accessToken })
         else:
-            return "Something is Wrong"
+            return {"msg":"Something is Wrong"}
     else:
-        return Response(status=405)
-
-@app.route('/api/logout', methods=["GET"])
-def logout():
-    if 'auth' in session:
-        session.pop('auth')
-        return ({"msg":"logout!"})
-    else:
-        return ({"msg":"Not Logined!"})
-
+        return {"msg":"Something is Wrong"}
 
 @app.route('/api/password', methods=['PUT'])
 def changepw():
+    if jwtVerify(request.headers.get('Authorization')) == False:
+        return ({"msg":"Not Logined"}),401
     if request.method == "PUT":
-        pass
-        #password update fucntion reqired
+        new_password = request.get_json()['password']
+        new_password = new_password.encode('UTF-8')
+        new_password= bcrypt.hashpw(new_password,bcrypt.gensalt()).decode('UTF-8')
+        return db.change_pw(new_password)
 
-
-@app.route('/api/update')
+@app.route('/api/update', methods=["POST"])
 def ytdlp_update():
     if jwtVerify(request.headers.get('Authorization')) == False:
         return ({"msg":"Not Logined"}),401
-    try:
-        os.system("pip install -U yt-dlp")
-        return({"result":"sucess"})
-    except:
-        return({"result":"failed"})
+    if request.method == "POST":
+        try:
+            os.system("pip install -U yt-dlp")
+            return({"msg":"Success!"})
+        except:
+            return({"msg":"Update Failed"})
+    else:
+        return ({"msg":"Method Not Allowed"}),405
 
 
 def thread_download():

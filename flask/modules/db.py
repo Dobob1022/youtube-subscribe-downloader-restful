@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy import Column, Integer, String, DateTime, delete
+from sqlalchemy import Column, Integer, String, DateTime, delete, update
 import datetime
 import bcrypt
 
@@ -22,6 +22,7 @@ class List(Base):
 
 class Auth(Base):
   __tablename__ = "auth"
+  id = Column(Integer,primary_key=True, autoincrement=True)
   password = Column(String, primary_key=True)
 
 List.__table__.create(bind=engine, checkfirst=True)
@@ -54,21 +55,24 @@ def load_link():
 
 
 #auth table function
-def change_pw(password):
-  query = Auth(password=password)
+def change_pw(new_password):
   try:
-    session.add(query)
+    auth = session.query(Auth).filter(Auth.id == '1').first()
+    auth.password = new_password    
     session.commit()
+    session.close()
+    return ({"msg":"OK"})
   except IntegrityError as e:
     session.rollback()
     session.close()
+    print(e)
     return ({"msg":"Not_Changed"})
-  else:
-    session.close()
-    return ({"msg":"OK"})
+
+    
 
 def load_password():
   query_data = session.query(Auth.password).all()
+  print(query_data)
   session.close()
   return query_data
 

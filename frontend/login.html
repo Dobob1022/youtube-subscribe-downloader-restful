@@ -29,7 +29,7 @@
     $(document).on('click', "#submit", () => {
         let SendData = {"password": $('#password').val()}
         $.ajax({
-            url: "http://dobob.iptime.org:7000/api/login",
+            url: "http://127.0.0.1:7000/api/login",
             type: "POST",
             contentType:"application/json",
             dataType: "JSON",
@@ -37,11 +37,11 @@
             success: (req) => {
                 console.log(req)
                 Cookies.set('token', req.msg, { expires: 7, path: '/' });
-                $(location).attr("href", "http://dobob.iptime.org:5500/youtube-subscribe-downloader-restful/frontend/index.html");
+                $(location).attr("href", "index.html");
             },
             error: function (request) {
                 alert(request.responseJSON.msg);
-                $(location).attr("href", "http://dobob.iptime.org:5500/youtube-subscribe-downloader-restful/frontend/login.html");
+                $(location).attr("href", "login.html");
             }
         })
     })
