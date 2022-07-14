@@ -1,0 +1,25 @@
+version: "1.0"
+
+
+services:
+    backend:
+        build: ./flask
+        container_name: flask
+        hostname: backend
+        restart: always
+        command: gunicorn -b 0.0.0.0:7000 app:app
+        ports:
+            - "7000:7000"
+        networks:
+            - default
+    frontend:
+        build: ./frontend
+        hostname: frontend
+        container_name: frontend
+        restart: always
+        ports:
+            - "80:80"
+        networks:
+            - default
+        depends_on:
+            - backend

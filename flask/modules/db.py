@@ -23,7 +23,7 @@ class List(Base):
 class Auth(Base):
   __tablename__ = "auth"
   id = Column(Integer,primary_key=True, autoincrement=True)
-  password = Column(String, primary_key=True)
+  password = Column(String)
 
 List.__table__.create(bind=engine, checkfirst=True)
 Auth.__table__.create(bind=engine, checkfirst=True)

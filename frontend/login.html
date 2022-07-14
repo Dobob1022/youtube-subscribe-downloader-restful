@@ -28,8 +28,9 @@
     });
     $(document).on('click', "#submit", () => {
         let SendData = {"password": $('#password').val()}
+        let address = $(location).attr('host');
         $.ajax({
-            url: "http://127.0.0.1:7000/api/login",
+            url: `http://${address}/api/login`,
             type: "POST",
             contentType:"application/json",
             dataType: "JSON",

@@ -72,9 +72,10 @@
 </div>
     </body>
     <script>
+        let address = $(location).attr('host');
         $(document).on('click', "#update", () => {
         $.ajax({
-            url: "http://127.0.0.1:7000/api/update",
+            url: `http://${address}/api/update`,
             type: "POST",
             headers: {
                 'Authorization': `Bearer ${Cookies.get('token')}`

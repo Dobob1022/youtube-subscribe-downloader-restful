@@ -27,8 +27,9 @@
     });
     $(document).on('click', "#submit", () => {
         let SendData = {"link": $('#youtubeLink').val()}
+        let address = $(location).attr('host'); 
         $.ajax({
-            url: "http://127.0.0.1:7000/api/db",
+            url: `http://${address}/api/db`,
             type: "POST",
             contentType:"application/json",
             dataType: "JSON",

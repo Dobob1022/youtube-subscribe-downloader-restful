@@ -34,7 +34,8 @@
 </body>
 
 <script>
-    const endpoint = "http://127.0.0.1:7000/api/db"
+    let address = $(location).attr('host');
+    let endpoint = `http://${address}/api/db`
 
     $(function () {
         var filename = "components/navbar.html";

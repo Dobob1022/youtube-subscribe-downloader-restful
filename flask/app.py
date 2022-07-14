@@ -17,7 +17,7 @@ from urllib.request import urlopen, Request
 from flask_cors import CORS
 
 #flask_thing
-app = Flask(__name__)
+application = app = Flask(__name__)
 app.secret_key = os.urandom(24)
 CORS(app) # CORS
 
@@ -161,7 +161,7 @@ def thread_download():
 
 if __name__ == "__main__":
     threading.Thread(target = thread_download).start()
-    app.run(debug=True, host = '0.0.0.0',port=7000)
+    app.run(host = '0.0.0.0',port=7000)
     
     
     
