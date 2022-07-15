@@ -13,7 +13,8 @@ services:
         networks:
             - default
         volumes:
-            - "HostPath:/app/download"
+            - "HostPath:/app/download" #download folder
+            - "HostPath:/app/db" #db backup
     frontend:
         build: ./frontend
         hostname: frontend

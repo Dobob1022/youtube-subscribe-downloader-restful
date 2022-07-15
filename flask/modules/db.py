@@ -6,7 +6,7 @@ import datetime
 import bcrypt
 
 
-engine = create_engine('sqlite:///db.sqlite3?check_same_thread=False')#, echo=True)
+engine = create_engine('sqlite:///db/db.sqlite3?check_same_thread=False')#, echo=True)
 
 Base = declarative_base()
 
