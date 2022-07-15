@@ -133,3 +133,11 @@ dmypy.json
 #downloaded file Remove
 /download
 download/
+
+#dev env
+/dev
+dev/
+
+#docker volume
+/youtube
+youtube/

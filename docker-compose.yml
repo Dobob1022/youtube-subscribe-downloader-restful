@@ -12,6 +12,8 @@ services:
             - "7000:7000"
         networks:
             - default
+        volumes:
+            - "/Users/dobob/Desktop/Workspace/youtube-subscribe-downloader-restful/youtube:/app/download"
     frontend:
         build: ./frontend
         hostname: frontend

@@ -152,6 +152,12 @@ def ytdlp_update():
     else:
         return ({"msg":"Method Not Allowed"}),405
 
+@app.route('/api/download',methods=["POST"])
+def DownloadNow():
+    getdata = db.load_link()
+    return(download.download(getdata))
+    
+
 
 def thread_download():
     while True:

@@ -18,6 +18,7 @@
 
         <button type="button" class="btn btn-primary" id="eventQuery">Query</button>
         <button type="button" class="btn btn-primary" id="eventDelete">Delete checked</button>
+        <button type="button" class="btn btn-primary" id="eventDownload">Download Now!</button>
         <table class="table table-bordered">
             <thread>
                 <tr>
@@ -67,7 +68,7 @@
 
     $(document).on('click', "#eventQuery", () => {
         $.ajax({
-            url: endpoint,
+            url: `http://${address}/api/db`,
             contentType:"application/json",
             type: "GET",
             headers: {
@@ -85,6 +86,26 @@
                     `);
                     ++count;
                 }
+            },
+            error: function (request) {
+                alert(request.responseJSON.msg);
+            }
+        })
+    })
+
+    $(document).on('click', "#eventDownload", () => {
+        let address = $(location).attr('host'); 
+        $.ajax({
+            url: `http://${address}/api/download`,
+            type: "POST",
+            contentType:"application/json",
+            dataType: "JSON",
+            headers: {
+                'Authorization': `Bearer ${Cookies.get('token')}`
+            },
+            success: (req) => {
+                console.log(req)
+                alert(req.msg);
             },
             error: function (request) {
                 alert(request.responseJSON.msg);

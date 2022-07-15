@@ -167,7 +167,7 @@
 # else:
 #     print("DICK")
 
-import bcrypt
-
-hash = "$2b$12$YcScIxgLJQL5SRw3huoP8.UJFDCKtVz3wJe9zyN5pFGJfq.FxRcPO"
-print(bcrypt.checkpw("defaultpassword".encode('UTF-8'),hash.encode('UTF-8')))
+from modules import download,db
+getdata = db.load_link()
+download.download(getdata)
+    

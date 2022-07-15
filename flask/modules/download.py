@@ -3,7 +3,7 @@ import yt_dlp.utils
 
 def download(download_links):
     for v0 in download_links:
-        if 'playlist' in v0[0]:
+        if 'playlist' in v0[1]:
             ydl_opt = {
             'outtmpl': './download/playlists/%(playlist_title)s/''%(title)s.%(ext)s',
             'format': 'best', #sel best qulity 
@@ -16,7 +16,7 @@ def download(download_links):
             'download_archive':'./download/archive.txt',
             }
             with yt_dlp.YoutubeDL(ydl_opt) as ydl:
-                ydl.download(str(v0[0]))
+                ydl.download(str(v0[1]))
         else:
             ydl_opt = {
             'outtmpl': './download/channels/%(channel)s/''%(title)s.%(ext)s',
@@ -30,7 +30,7 @@ def download(download_links):
             'download_archive':'./download/archive.txt',
             }
             with yt_dlp.YoutubeDL(ydl_opt) as ydl:
-                ydl.download(str(v0[0]))
+                ydl.download(str(v0[1]))
     return({"result":"true"})            
             
 def check_download(link_list):
