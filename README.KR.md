@@ -10,6 +10,19 @@ Backend - Python(Flask),yt_dlp,ETC...
 
 Frontend - HTML+Bootstrap+Jquery
 
+## docker 로케이션
+
+docker-compose.yml 파일 안에 
+
+이부분을 볼 수 있습니다.
+```
+volumes:
+            - "HostPath:/app/download" #download folder
+            - "HostPath:/app/db" #db backup
+```
+HostPath에 실제 저장이 될 로케이션을 지정해 주시기 바랍니다.
+
+
 ### 링크 추가하기
 
 채널과 플레이리스트를 지원합니다!
