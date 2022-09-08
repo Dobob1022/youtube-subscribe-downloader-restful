@@ -31,7 +31,7 @@ def download(download_links):
             }
             with yt_dlp.YoutubeDL(ydl_opt) as ydl:
                 ydl.download(str(v0[1]))
-    return({"result":"true"})            
+    return({"msg":"Donwload Done!"})            
             
 def check_download(link_list):
     try:

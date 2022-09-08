@@ -1,4 +1,4 @@
-version: "1.0"
+version: "3.0"
 
 
 services:
@@ -7,7 +7,7 @@ services:
         container_name: flask
         hostname: backend
         restart: always
-        command: gunicorn -b 0.0.0.0:7000 app:app
+        command: python app.py
         ports:
             - "7000:7000"
         networks:

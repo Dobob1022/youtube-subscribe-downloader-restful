@@ -10,6 +10,18 @@ Backend - Python(Flask),yt_dlp,ETC...
 
 Frontend - HTML+Bootstrap+Jquery
 
+## docker location
+
+in docker-compose.yml
+
+you can see the 
+```
+volumes:
+            - "HostPath:/app/download" #download folder
+            - "HostPath:/app/db" #db backup
+```
+You need to Change HostPath Location in host location
+
 ### Add Link
 
 The Channel and Playlist is available!
@@ -87,7 +99,7 @@ So is very unsafe to use.
 
 Please change Password after install the Server.
 
-인증은 JWT를 사용합니다.
+This project use JWT to auth!
 
 ```
 EndPoint : ServerIP:Port/api/password

@@ -88,7 +88,10 @@ def dbjob():
                 return ({"msg":"Invaild Youtube Link"})
                 #404 check
             name = get_channel_name(request_url)
-            return db.insert_link(request_url, name),200
+            result = db.insert_link(request_url, name),200
+            getdata = db.load_link()
+            download.download(getdata)
+            return result
             
     ## Delate Link Function
     elif request.method=="DELETE":
@@ -159,14 +162,19 @@ def DownloadNow():
     
 
 
-def thread_download():
+def download_thread():
     while True:
         getdata = db.load_link()
-        print(download.check_download(getdata))
+        download.check_download(getdata)
         time.sleep(7200)
+def start_thread():
+    t = threading.Thread(target = download_thread)
+    t.daemon = True
+    t.start()
+
 
 if __name__ == "__main__":
-    threading.Thread(target = thread_download).start()
+    start_thread()
     app.run(host = '0.0.0.0',port=7000)
     
     

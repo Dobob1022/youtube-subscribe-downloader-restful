@@ -11,7 +11,6 @@ Flask==2.1.2
 Flask-Cors==3.0.10
 Flask-Session==0.4.0
 Flask-Sessionstore==0.4.5
-gunicorn==20.1.0
 idna==3.3
 itsdangerous==2.1.2
 Jinja2==3.1.2
