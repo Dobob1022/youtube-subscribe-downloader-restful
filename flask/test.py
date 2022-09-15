@@ -168,6 +168,6 @@
 #     print("DICK")
 
 from modules import download,db
-getdata = db.load_link()
-download.download(getdata)
+getdata = "https://www.youtube.com/channel/UCbBI8DBJe3i0zfVkNY9z5pQ"
+download.only_download(getdata)
     

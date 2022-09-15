@@ -67,6 +67,8 @@ def change_pw(new_password):
     session.close()
     print(e)
     return ({"msg":"Not_Changed"})
+  except:
+    return({"msg":"Something is Wrong!"})
 
     
 

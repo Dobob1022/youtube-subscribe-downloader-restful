@@ -51,7 +51,8 @@ def check_download(link_list):
         })
 
 def only_download(link):
-    ydl_opt = {
+    if 'playlist' in link:
+            ydl_opt = {
             'outtmpl': './download/playlists/%(playlist_title)s/''%(title)s.%(ext)s',
             'format': 'best', #sel best qulity 
             'continue' : True,
@@ -62,5 +63,32 @@ def only_download(link):
             'ignoreerrors': True,
             'download_archive':'./download/archive.txt',
             }
+            with yt_dlp.YoutubeDL(ydl_opt) as ydl:
+                ydl.download(link)
+    else:
+        ydl_opt = {
+        'outtmpl': './download/channels/%(channel)s/''%(title)s.%(ext)s',
+        'format': 'best', #sel best qulity 
+        'continue' : True,
+        'verbose' : True,
+        'no-overwrites' : True,
+        'noplaylist' : True,
+        'geo-bypass' : True,
+        'ignoreerrors': True,
+        'download_archive':'./download/archive.txt',
+        }
+        with yt_dlp.YoutubeDL(ydl_opt) as ydl:
+            ydl.download(link)
+    # ydl_opt = {
+    #         'outtmpl': './download/playlists/%(playlist_title)s/''%(title)s.%(ext)s',
+    #         'format': 'best', #sel best qulity 
+    #         'continue' : True,
+    #         'verbose' : True,
+    #         'no-overwrites' : True,
+    #         'noplaylist' : True,
+    #         'geo-bypass' : True,
+    #         'ignoreerrors': True,
+    #         'download_archive':'./download/archive.txt',
+    #         }
     with yt_dlp.YoutubeDL(ydl_opt) as ydl:
         ydl.download(link)

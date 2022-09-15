@@ -89,8 +89,9 @@ def dbjob():
                 #404 check
             name = get_channel_name(request_url)
             result = db.insert_link(request_url, name),200
+            #issue #08
             getdata = db.load_link()
-            download.download(getdata)
+            download.only_download(getdata)
             return result
             
     ## Delate Link Function
