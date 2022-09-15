@@ -38,6 +38,7 @@
             success: (req) => {
                 console.log(req)
                 Cookies.set('token', req.msg, { expires: 7, path: '/' });
+                alert("Login Sucessful!")
                 $(location).attr("href", "index.html");
             },
             error: function (request) {

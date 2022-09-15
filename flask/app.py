@@ -88,10 +88,12 @@ def dbjob():
                 return ({"msg":"Invaild Youtube Link"})
                 #404 check
             name = get_channel_name(request_url)
+            #issue #6
+            if name == "null":
+                return ({"msg":"Channel Or Playlist is unavailable."})
             result = db.insert_link(request_url, name),200
             #issue #08
-            getdata = db.load_link()
-            download.only_download(getdata)
+            download.only_download(request_url)
             return result
             
     ## Delate Link Function
@@ -160,6 +162,10 @@ def ytdlp_update():
 def DownloadNow():
     getdata = db.load_link()
     return(download.download(getdata))
+
+
+
+
     
 
 

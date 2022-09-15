@@ -167,7 +167,46 @@
 # else:
 #     print("DICK")
 
-from modules import download,db
-getdata = "https://www.youtube.com/channel/UCbBI8DBJe3i0zfVkNY9z5pQ"
-download.only_download(getdata)
-    
+
+
+
+
+
+
+
+
+# import requests
+# import json
+# import jwt
+# authpassword = {'password':'defaultpassword'}
+# headers = {'Content-Type': 'application/json; charset=utf-8'}
+# def get_jwt():
+#         response = requests.post('http://127.0.0.1:7000/api/login', headers=headers ,data=json.dumps(authpassword))
+#         print(response)
+#         authinfo = json.loads(response.text)
+#         return authinfo['msg']
+
+# print(get_jwt())
+
+# def jwtVerify(token):
+#     try:
+#         decode = jwt.decode(token.replace("Bearer ", ""), "yee yee ass hair cut", algorithms="HS256") 
+#         print(decode)
+#         if decode['login'] == "true":
+#             return True
+#     except jwt.exceptions.DecodeError as e:
+#         return False
+#     except AttributeError as e:
+#         return False
+
+# print(jwtVerify(get_jwt()))
+
+
+def aqq():
+    name = "null"
+    if name != "null" or "Null" or "NULL":
+        return (print({"msg":"Channel Or Playlist is unavailable."}))
+    else:
+        return(print("fuq"))
+
+aqq()
