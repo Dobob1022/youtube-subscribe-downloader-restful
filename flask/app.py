@@ -48,10 +48,18 @@ def link_avaliablity(url):
     return False
 
 def get_channel_name(url):
-    url_opener = urlopen(Request(url, headers={'User-Agent': 'Mozilla'}))
-    videoInfo = bs(url_opener, features="html.parser")
-    video_title = videoInfo.title.get_text()
-    return video_title
+    try:
+        url_opener = urlopen(Request(url, headers={'User-Agent': 'Mozilla'}))
+    except:
+        False
+    else:
+        videoInfo = bs(url_opener, features="html.parser")
+    try:
+        video_title = videoInfo.title.get_text()
+    except:
+        return False
+    else:
+        return video_title
 
 ## route area
 @app.route('/')
@@ -89,7 +97,7 @@ def dbjob():
                 #404 check
             name = get_channel_name(request_url)
             #issue #6
-            if name == "null":
+            if name == False:
                 return ({"msg":"Channel Or Playlist is unavailable."})
             result = db.insert_link(request_url, name),200
             #issue #08
@@ -99,6 +107,7 @@ def dbjob():
     ## Delate Link Function
     elif request.method=="DELETE":
         params = request.get_json()
+        print(params)
         if not request.is_json:
             return ({"msg": "Missing JSON in request"})
         else:

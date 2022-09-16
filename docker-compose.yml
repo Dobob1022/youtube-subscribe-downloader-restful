@@ -12,9 +12,9 @@ services:
             - "7000:7000"
         networks:
             - default
-        # volumes:
-        #     - "HostPath:/app/download" #download folder
-        #     - "HostPath:/app/db" #db backup
+        volumes:
+            - "HostPath:/app/download" #download folder
+            - "HostPath:/app/db" #db backup
     frontend:
         build: ./frontend
         hostname: frontend

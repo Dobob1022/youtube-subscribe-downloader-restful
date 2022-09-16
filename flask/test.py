@@ -201,12 +201,38 @@
 
 # print(jwtVerify(get_jwt()))
 
+# import json
+# import requests
 
-def aqq():
-    name = "null"
-    if name != "null" or "Null" or "NULL":
-        return (print({"msg":"Channel Or Playlist is unavailable."}))
-    else:
-        return(print("fuq"))
 
-aqq()
+# output = requests.get("http://127.0.0.1:7000/api/db", headers=header)
+
+# json_load = json.loads(requests.get("http://127.0.0.1:7000/api/db", headers=header).text)
+# # print(json.dumps(output))
+
+# # b = json.loads(output.text)
+
+# print(json_load[-1]['id'])
+
+
+
+# # print(b[-1]['id'])
+
+import json
+import requests
+
+header={
+            'Content-Type': 'application/json; charset=utf-8',
+            'Authorization': "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpbiI6InRydWUifQ.ujrl2ZZPJWit0WywQRUGfWkgcOndYgznNFQdd9pj1Lg"
+            }
+
+
+jsonLoad = json.loads(requests.get("http://127.0.0.1:7000/api/db", headers=header).text)
+number = jsonLoad[-1]['id']
+req = {"id":f"{number}"}
+print([json.dumps(req)])
+response = requests.delete("http://127.0.0.1:7000/api/db", headers=header,data=json.dumps([req]))
+
+print(response)
+
+
