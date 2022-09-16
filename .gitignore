@@ -138,6 +138,7 @@ download/
 /dev
 dev/
 
+/result_test.txt
 #docker volume
 /youtube
 youtube/

@@ -46,8 +46,7 @@
     $(document).on('click', "#eventDelete", () => {
         let request=[];
         $('input[type=checkbox]:checked').map((_, checkedIdList) => {
-            for(let id of $(checkedIdList).val())
-            request.push({"id": id});
+            request.push({"id": $(checkedIdList).val()});
         }).get();
         console.log(JSON.stringify(request))
         $.ajax({

@@ -9,7 +9,9 @@ import jwt
 import app
 from modules import db
 
+
 class UnitTest(unittest.TestCase):
+
     def setUp(self):
         self.host = "http://localhost:7000"
         self.correct_json_link_request = {
@@ -27,6 +29,10 @@ class UnitTest(unittest.TestCase):
         self.default_password = "defaultpassword"
 
         self.authpassword = {'password':'defaultpassword'}
+
+        self.notdefaultpassword = {'password':'notdefaultpassword'}
+
+
         self.login_headers = {
             'Content-Type': 'application/json; charset=utf-8',
         }
@@ -39,26 +45,15 @@ class UnitTest(unittest.TestCase):
 
 
     # #Check DB Function
-    # def test_db_default_password_Check(self):
-    #     self.assertEqual(True,bcrypt.checkpw("defaultpassword".encode('UTF-8'),db.load_password()[0][0].encode('UTF-8')))
+    def test_db_default_password_Check(self):
+        print("====DEFAULTPASSWORD initialize====")
+        print(self.assertEqual(True,bcrypt.checkpw("defaultpassword".encode('UTF-8'),db.load_password()[0][0].encode('UTF-8'))))
     
-    # def test_password_change(self):
-    #     self.assertEqual("OK",db.change_pw(bcrypt.hashpw(self.default_password.encode('UTF-8'),bcrypt.gensalt()).decode('UTF-8'))['msg'])
-
-    # def test_insert_link_function(self):
-    #     self.assertEqual("OK", db.insert_link(self.raw_correct_url,self.raw_correct_url_name)['msg'])
-    #     db.delete_link("a")
-        
-
-    # def test_duplicate_insert_link_function(self):
-    #     self.assertEqual("Link is duplicated!", db.insert_link(self.raw_correct_url,self.raw_correct_url_name)['msg'])
-
-    # # def test_password_not_change(self):
-    # #     self.assertEqual("Not_Changed",db.change_pw(bcrypt.hashpw(self.default_password.encode('UTF-8'),bcrypt.gensalt()).decode('UTF-8'))['msg'])
     
     
     #Check Flask function
     def test_login(self):
+        print("====Login Test====")
         response = requests.post(self.host+'/api/login', headers=self.login_headers ,data=json.dumps(self.authpassword))
         data = json.loads(response.text)['msg']
         self.assertEqual("true", jwt.decode(data, "yee yee ass hair cut", algorithms="HS256")['login'])
@@ -69,13 +64,35 @@ class UnitTest(unittest.TestCase):
 
     def test_insert_link(self):
         response = requests.post(self.host+'/api/db', headers=self.logined_headers,data=json.dumps(self.correct_json_link_request))
-        # data = json.loads(response.text)['msg']
-        print(response.text)
-        # self.assertEqual("OK",data)
+        data = json.loads(response.text)['msg']
+        print("====INSERT Link Test====")
+        print(data)
+        self.assertEqual("OK",data)
         self.assertEqual(200,response.status_code)
+
     def test_remove_link(self):
         response = requests.delete(self.host+'/api/db', headers=self.logined_headers,data=json.dumps(self.delete_link))
+        print(response.status_code)
+        msg = json.loads(response.text)['msg']
+        print("====Remove Link Test====")
+        print(msg)
+        self.assertEqual(200,response.status_code)
+        self.assertEqual("Sucessfully Deleted!",msg)
+    
+    def test_load_link(self):
+        response = requests.get(self.host+'/api/db', headers=self.logined_headers)
+        print("====Load Link Test====")
         print(response.text)
+        self.assertEqual(200,response.status_code)
+
+
+    def test_update_password(self):
+        print("====Password Change Test====")
+        response = requests.put(self.host+'/api/password', headers=self.logined_headers,data=json.dumps(self.authpassword))
+        msg = json.loads(response.text)['msg']
+        self.assertEqual("OK",msg)
+        print(msg)
+
 
 
 
