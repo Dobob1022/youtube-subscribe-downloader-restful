@@ -15,7 +15,7 @@ class UnitTest(unittest.TestCase):
 
     def setUp(self):
         #host setup
-        self.host = "http://dobob.iptime.org:8090"
+        self.host = "http://127.0.0.1:7000"
 
         self.correct_json_link_request = {
             "link":"https://www.youtube.com/channel/UCbBI8DBJe3i0zfVkNY9z5pQ"
@@ -43,7 +43,6 @@ class UnitTest(unittest.TestCase):
         self.login_headers = {
             'Content-Type': 'application/json; charset=utf-8',
         }
-        # self.delete_link = [{"id":"1"}]
         self.logined_headers = {
             'Content-Type': 'application/json; charset=utf-8',
             'Authorization': "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpbiI6InRydWUifQ.ujrl2ZZPJWit0WywQRUGfWkgcOndYgznNFQdd9pj1Lg"
@@ -65,9 +64,9 @@ class UnitTest(unittest.TestCase):
         data = json.loads(response.text)['msg']
         self.assertEqual("true", jwt.decode(data, "yee yee ass hair cut", algorithms="HS256")['login'])
 
-    def status_get_code_only(self):
-        response = requests.get(self.host+'/api/db', headers=self.logined_headers)
-        self.assertEqual(200,response.status_code)
+    # def status_get_code_only(self):
+    #     response = requests.get(self.host+'/api/db', headers=self.logined_headers)
+    #     self.assertEqual(200,response.status_code)
 
     def test_insert_link(self):
         #Correct Link Insert
