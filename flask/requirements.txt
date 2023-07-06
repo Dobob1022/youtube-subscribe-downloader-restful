@@ -27,4 +27,4 @@ urllib3==1.26.10
 uWSGI==2.0.20
 websockets==10.3
 Werkzeug==2.2.3
-yt-dlp==2022.6.29
+yt-dlp==2023.7.6
